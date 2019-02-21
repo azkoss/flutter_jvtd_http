@@ -1,8 +1,8 @@
 name: flutter_jvtd_http
 description: 聚通达网络请求框架
 version: 0.0.2
-author:
-homepage:
+author: 陈磊
+homepage: https://github.com/q200892907/flutter_jvtd_http
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -16,5 +16,3 @@ dependencies:
 
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
