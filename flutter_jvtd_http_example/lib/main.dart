@@ -28,7 +28,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('接口Demo'),
+        title: Text('网络框架接口Demo'),
         centerTitle: true,
       ),
       body: Column(
