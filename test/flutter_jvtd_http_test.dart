@@ -4,7 +4,7 @@ import 'package:flutter_jvtd_http/flutter_jvtd_http.dart';
 void main() async {
   Map<String, dynamic> data2 = Map();
   data2['phone'] = '1345135111';
-  await TestApi().start(data2).then((data) {
+  await TestApi().start(params: data2).then((data) {
     if (data.success) {
       jvtdLog('success', data.message);
     } else {
@@ -18,7 +18,13 @@ class TestApi extends SimpleApi<Null> {
   Null onExtractResult(resultData, HttpData<Null> data) {}
 
   @override
-  String onUrl(Map<String, dynamic> params) => "http://greenshoe-api.weiyingjia.org/api/user/verifyCode";
+  String onUrl(Map<String, dynamic> params) =>
+      "http://greenshoe-api.weiyingjia.org/api/user/verifyCode";
+
+  @override
+  String responseResult() {
+    return 'result';
+  }
 
   @override
   void onFillParams(Map<String, dynamic> data, Map<String, dynamic> params) {

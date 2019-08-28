@@ -52,7 +52,7 @@ class _ApiPageState extends State<ApiPage> {
 
   _getCode() {
     if (_getCodeApi == null) _getCodeApi = GetCodeApi();
-    _getCodeApi.start(_getCodeReqBean.toJson()).then((value) {
+    _getCodeApi.start(params: _getCodeReqBean.toJson()).then((value) {
       if (value.success) {
         _getCodeResBean = value.result;
         setState(() {});

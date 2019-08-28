@@ -2,13 +2,10 @@ import 'package:meta/meta.dart';
 import 'jvtd_http_utils.dart';
 import 'jvtd_http_core.dart';
 
-/// 用于获取响应json数据协议中"result"字段
-const String result = "result";
-
 /// 简化的[Api]类
 ///
 /// * [D]为关联的接口结果数据类型。
-/// * 适用于除下载任务以外的请求任务，下载任务请使用[SimpleDownloadWork]
+/// * 适用于除下载任务以外的请求任务，下载任务请使用[SimpleDownloadApi]
 /// * 使用特定的公司接口协议描述。
 ///
 /// ``` http协议
@@ -28,11 +25,15 @@ abstract class SimpleApi<D> extends Api<D, HttpData<D>> {
   @override
   HttpData<D> onCreateApiData() => HttpData<D>();
 
+  /// 响应字段配置
+  @protected
+  String responseResult();
+
   @override
   D onResponseSuccess(response, HttpData<D> data) =>
-      response[result] == null
+      response[responseResult()] == null
           ? onDefaultResult(data)
-          : onExtractResult(response[result], data);
+          : onExtractResult(response[responseResult()], data);
 
   @override
   bool onResponseResult(response) => response["state"];
@@ -70,9 +71,8 @@ abstract class SimpleApi<D> extends Api<D, HttpData<D>> {
 
 /// 简化的下载专用[Api]类
 ///
-/// * 适用于下载文件任务，其他类型任务请使用[SimpleWork]
-abstract class SimpleDownloadWork extends Api<Null, HttpData<Null>> {
-  @override
+/// * 适用于下载文件任务，其他类型任务请使用[SimpleApi]
+abstract class SimpleDownloadApi extends Api<Null, HttpData<Null>> {
   HttpData<Null> onCreateWorkData() => HttpData<Null>();
 
   @override

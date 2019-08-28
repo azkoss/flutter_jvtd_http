@@ -51,7 +51,9 @@ class _PagingApiPageState extends State<PagingApiPage> {
                   SizedBox(height: 16),
                   Text('接口接收参数:'),
                   SizedBox(height: 8),
-                  _getLineListApi == null ? Text('请调用接口') : Text(_list != null ? _getListString() : '接口调用失败'),
+                  _getLineListApi == null
+                      ? Text('请调用接口')
+                      : Text(_list != null ? _getListString() : '接口调用失败'),
                 ],
               ),
             ),
@@ -61,10 +63,10 @@ class _PagingApiPageState extends State<PagingApiPage> {
     );
   }
 
-  String _getListString(){
+  String _getListString() {
     String _listStr = '';
-    _list.forEach((bean){
-      _listStr+=bean.toJson().toString() + '\n\n\n\n';
+    _list.forEach((bean) {
+      _listStr += bean.toJson().toString() + '\n\n\n\n';
     });
     return _listStr;
   }
@@ -74,7 +76,7 @@ class _PagingApiPageState extends State<PagingApiPage> {
       _getLineListApi = GetLineListApi();
       _getLineListBean = GetLineListBean(destination: '', interestType: '');
     }
-    _getLineListApi.refresh(_getLineListBean.toJson()).then((value) {
+    _getLineListApi.refresh(params: _getLineListBean.toJson()).then((value) {
       if (value.success) {
         _list = value.result;
       } else {
@@ -89,7 +91,7 @@ class _PagingApiPageState extends State<PagingApiPage> {
       _getLineListApi = GetLineListApi();
       _getLineListBean = GetLineListBean(destination: '', interestType: '');
     }
-    _getLineListApi.refresh(_getLineListBean.toJson()).then((value) {
+    _getLineListApi.refresh(params: _getLineListBean.toJson()).then((value) {
       if (value.success) {
         _list.addAll(value.result);
       } else {

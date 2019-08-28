@@ -15,6 +15,11 @@ abstract class BaseApi<D> extends SimpleApi<D> {
   String apiMethod(Map<String, dynamic> params);
 
   @override
+  String responseResult() {
+    return 'result';
+  }
+
+  @override
   void onFillParams(Map<String, dynamic> data, Map<String, dynamic> params) {
     data["version"] = "V1.0";
     data["data"] = params;
