@@ -19,6 +19,9 @@ class HttpData<T> {
   /// http响应码
   int _httpCode = 0;
 
+  // 接口返回状态码
+  dynamic _statusCode;
+
   /// 任务传入参数列表
   Map<String, dynamic> _params;
 
@@ -45,6 +48,9 @@ class HttpData<T> {
 
   /// 任务是否被取消
   bool get cancel => _cancel;
+
+  // 获取接口状态码
+  dynamic get statusCode => _statusCode;
 }
 
 /// 网络请求工具
@@ -174,8 +180,7 @@ abstract class Api<D, T extends HttpData<D>> {
   }
 
   /// 构建请求选项参数
-  Options _onCreateOptions(
-      Map<String, dynamic> params, int retry, OnProgress onProgress) {
+  Options _onCreateOptions(Map<String, dynamic> params, int retry, OnProgress onProgress) {
     jvtdLog(tag, "构建请求选项参数");
 
     final data = Map<String, dynamic>();
@@ -270,8 +275,7 @@ abstract class Api<D, T extends HttpData<D>> {
   /// * 适合填充项目中所有接口必须传递的固定参数（通过项目中实现的定制[Api]基类完成）
   /// * [data]为请求参数集（http请求要发送的参数），[params]为任务传入的参数列表
   @protected
-  void onPreFillParams(
-      Map<String, dynamic> data, Map<String, dynamic> params) {}
+  void onPreFillParams(Map<String, dynamic> data, Map<String, dynamic> params) {}
 
   /// 填充请求所需的参数
   ///
@@ -284,8 +288,7 @@ abstract class Api<D, T extends HttpData<D>> {
   /// * 适合对参数进行签名（通过项目中实现的定制[Api]基类完成）
   /// * [data]为请求参数集（http请求要发送的参数），[params]为任务传入的参数列表
   @protected
-  void onPostFillParams(
-      Map<String, dynamic> data, Map<String, dynamic> params) {}
+  void onPostFillParams(Map<String, dynamic> data, Map<String, dynamic> params) {}
 
   /// 创建并填充请求头
   ///
@@ -371,6 +374,8 @@ abstract class Api<D, T extends HttpData<D>> {
     }
 
     try {
+      // 提取服务状态码
+      data._statusCode = onResponseCode(responseBody);
       // 提取服务执行结果
       data._success = onResponseResult(responseBody);
       jvtdLog(tag, "分析接口请求结果： " + (data.success ? "成功" : "失败"));
@@ -442,6 +447,10 @@ abstract class Api<D, T extends HttpData<D>> {
   /// * 如果设置为[ResponseType.plain]则[response]为字符串。
   @protected
   bool onResponseResult(response);
+
+  /// 提取服务之星返回的正确状态码
+  @protected
+  dynamic onResponseCode(response);
 
   /// 提取服务执行成功时返回的真正有用结果数据
   ///

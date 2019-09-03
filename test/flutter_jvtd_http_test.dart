@@ -54,4 +54,9 @@ class TestApi extends SimpleApi<Null> {
   void onConfigOptions(Options options, Map<String, dynamic> params) {
     options.contentType = ContentType.json;
   }
+
+  @override
+  onResponseCode(response) {
+    return response['code'];
+  }
 }

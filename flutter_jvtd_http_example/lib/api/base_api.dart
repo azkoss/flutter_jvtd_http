@@ -1,6 +1,7 @@
 import 'package:flutter_jvtd_http/flutter_jvtd_http.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
+
 //普通接口基类
 abstract class BaseApi<D> extends SimpleApi<D> {
   final BuildContext context;
@@ -8,8 +9,7 @@ abstract class BaseApi<D> extends SimpleApi<D> {
   BaseApi({this.context});
 
   @override
-  String onUrl(Map<String, dynamic> params) =>
-      "http://greenshoe-api.weiyingjia.org/api/" + apiMethod(params);
+  String onUrl(Map<String, dynamic> params) => "http://greenshoe-api.weiyingjia.org/api/" + apiMethod(params);
 
   @protected
   String apiMethod(Map<String, dynamic> params);
@@ -23,6 +23,11 @@ abstract class BaseApi<D> extends SimpleApi<D> {
   void onFillParams(Map<String, dynamic> data, Map<String, dynamic> params) {
     data["version"] = "V1.0";
     data["data"] = params;
+  }
+
+  @override
+  onResponseCode(response) {
+    return response['code'];
   }
 
   @override
@@ -42,8 +47,7 @@ abstract class BaseApi<D> extends SimpleApi<D> {
 
   @override
   String onParamsError(Map<String, dynamic> params) {
-    return
-        '接口参数错误';
+    return '接口参数错误';
   }
 
   @override
